@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
   }
 
   convertUnixToDate(unix: number): Date {
-    return new Date(unix);
+    return new Date(unix * 1000);
   }
 
   logout() {
