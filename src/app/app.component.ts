@@ -13,11 +13,11 @@ import {
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  isAuthenticated: boolean | undefined;
-  accessToken: AccessToken | undefined;
-  idToken: IDToken | undefined;
-  refreshToken: RefreshToken | undefined;
-  error: Error | undefined;
+  isAuthenticated?: boolean;
+  accessToken?: AccessToken;
+  idToken?: IDToken;
+  refreshToken?: RefreshToken;
+  error?: Error;
 
   constructor(
     @Inject(OKTA_AUTH) private oktaAuth: OktaAuth,
