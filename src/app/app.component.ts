@@ -34,6 +34,10 @@ export class AppComponent implements OnInit {
     });
   }
 
+  convertUnixToDate(unix: number): Date {
+    return new Date(unix);
+  }
+
   logout() {
     this.oktaAuth.signOut();
   }

@@ -1,31 +1,31 @@
 <h1>app-component</h1>
 <button (click)="logout()">Logout</button>
-<section>
+<section *ngIf="idToken">
     <h2>id token</h2>
     <label>value</label>
     <pre>
-        <code>{{idToken?.idToken}}</code>
+        <code>{{idToken.idToken}}</code>
     </pre>
     <label>expiration</label>
-    <p>{{idToken?.expiresAt}}</p>
+    <p>{{convertUnixToDate(idToken.expiresAt)}}</p>
 </section>
-<section>
+<section *ngIf="accessToken !== undefined">
     <h2>access token</h2>
     <label>value</label>
     <pre>
-        <code>{{accessToken?.accessToken}}</code>
+        <code>{{accessToken.accessToken}}</code>
     </pre>
     <label>expiration</label>
-    <p>{{accessToken?.expiresAt}}</p>
+    <p>{{convertUnixToDate(accessToken.expiresAt)}}</p>
 </section>
-<section>
+<section *ngIf="refreshToken">
     <h2>refresh token</h2>
     <label>value</label>
     <pre>
-        <code>{{refreshToken?.refreshToken}}</code>
+        <code>{{refreshToken.refreshToken}}</code>
     </pre>
     <label>expiration</label>
-    <p>{{refreshToken?.expiresAt}}</p>
+    <p>{{convertUnixToDate(refreshToken.expiresAt)}}</p>
 </section>
 <section *ngIf="error !== undefined">
     <h2>error</h2>
