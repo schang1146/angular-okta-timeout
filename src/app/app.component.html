@@ -1,3 +1,35 @@
 <h1>app-component</h1>
 <button (click)="logout()">Logout</button>
+<section>
+    <h2>id token</h2>
+    <label>value</label>
+    <code>{{idToken?.idToken}}</code>
+    <label>expiration</label>
+    <p>{{idToken?.expiresAt}}</p>
+</section>
+<section>
+    <h2>access token</h2>
+    <label>value</label>
+    <code>{{accessToken?.accessToken}}</code>
+    <label>expiration</label>
+    <p>{{accessToken?.expiresAt}}</p>
+</section>
+<section>
+    <h2>refresh token</h2>
+    <label>value</label>
+    <code>{{refreshToken?.refreshToken}}</code>
+    <label>expiration</label>
+    <p>{{refreshToken?.expiresAt}}</p>
+</section>
+<section *ngIf="error !== undefined">
+    <h2>error</h2>
+    <label>name</label>
+    <p>{{error.name}}</p>
+    <label>cause</label>
+    <p>{{error.cause}}</p>
+    <label>message</label>
+    <p>{{error.message}}</p>
+    <label>stack</label>
+    <p>{{error.stack}}</p>
+</section>
 <router-outlet></router-outlet>
