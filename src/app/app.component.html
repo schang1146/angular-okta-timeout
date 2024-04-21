@@ -1,5 +1,6 @@
 <h1>app-component</h1>
-<button (click)="logout()">Logout</button>
+<button mat-flat-button color="primary" (click)="logout()">logout</button>
+<button mat-flat-button color="primary" (click)="openInactiveModal()">open modal</button>
 <section *ngIf="idToken">
     <h2>id token</h2>
     <label>value</label>
