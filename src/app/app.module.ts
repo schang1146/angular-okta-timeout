@@ -7,6 +7,7 @@ import { HomeModule } from './pages/home/home.module';
 import { OktaAuthModule } from '@okta/okta-angular';
 import OktaAuth from '@okta/okta-auth-js';
 import { environment } from 'src/environments/environment';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const oktaAuth = new OktaAuth({
   issuer: environment.oktaIssuer,
@@ -20,6 +21,7 @@ const oktaAuth = new OktaAuth({
   declarations: [AppComponent],
   imports: [
     AppRoutingModule,
+    BrowserAnimationsModule,
     BrowserModule,
     OktaAuthModule.forRoot({ oktaAuth }),
     HomeModule,
