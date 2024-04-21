@@ -6,10 +6,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OktaAuthModule } from '@okta/okta-angular';
 import OktaAuth from '@okta/okta-auth-js';
 
+import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { InactiveDialogComponent } from './component/inactive-dialog/inactive-dialog.component';
 import { HomeModule } from './pages/home/home.module';
-import { environment } from 'src/environments/environment';
 
 const oktaAuth = new OktaAuth({
   issuer: environment.oktaIssuer,
@@ -20,7 +21,7 @@ const oktaAuth = new OktaAuth({
 });
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, InactiveDialogComponent],
   imports: [
     AppRoutingModule,
     BrowserAnimationsModule,
