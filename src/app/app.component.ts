@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
   validUserEvents = [{ scope: document, action: 'click' }];
   timeLastUserInteraction = new Date().getTime();
 
-  timeBetweenChecks = 1000;
+  timeBetweenChecks = 5000;
   timeToInactive = 900000;
   timeToSignOut = 1800000;
 
