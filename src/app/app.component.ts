@@ -8,6 +8,7 @@ import {
   RefreshToken,
 } from '@okta/okta-auth-js';
 import { InactiveDialogComponent } from './component/inactive-dialog/inactive-dialog.component';
+import { debounceTime, fromEvent, merge } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +21,13 @@ export class AppComponent implements OnInit {
   idToken?: IDToken;
   refreshToken?: RefreshToken;
   error?: Error;
+
+  validUserEvents = [{ scope: document, action: 'click' }];
+  timeLastUserInteraction = new Date().getTime();
+
+  timeBetweenChecks = 1000;
+  timeToInactive = 15000;
+  timeToSignOut = 30000;
 
   constructor(
     @Inject(OKTA_AUTH) private oktaAuth: OktaAuth,
@@ -35,6 +43,12 @@ export class AppComponent implements OnInit {
       this.refreshToken = authState.refreshToken;
       this.error = authState.error;
     });
+
+    merge(...this.validUserEvents.map((ev) => fromEvent(ev.scope, ev.action)))
+      .pipe(debounceTime(500))
+      .subscribe(() => {
+        this.timeLastUserInteraction = new Date().getTime();
+      });
   }
 
   convertUnixToDate(unix: number): Date {
