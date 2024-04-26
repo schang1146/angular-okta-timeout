@@ -30,9 +30,9 @@ export class AppComponent implements OnInit {
   refreshToken?: RefreshToken;
   error?: Error;
 
-  timeBetweenChecks = 5000;
-  timeToInactive = 900000;
-  timeToSignOut = 1800000;
+  timeBetweenChecks = 5000; // ms
+  inactiveThreshold = 900000; // ms
+  signOutThreshold = 1800000; // ms
 
   validUserEvents = [{ scope: document, action: 'click' }];
   stopListeningToUserInteractions$: Subject<null> = new Subject();
@@ -63,11 +63,11 @@ export class AppComponent implements OnInit {
       const currentTime = new Date().getTime();
       if (
         this.dialog.openDialogs.length === 0 &&
-        currentTime - this.timeLastUserInteraction > this.timeToInactive
+        currentTime - this.timeLastUserInteraction > this.inactiveThreshold
       ) {
         this.openInactiveModal();
       }
-      if (currentTime - this.timeLastUserInteraction > this.timeToSignOut) {
+      if (currentTime - this.timeLastUserInteraction > this.signOutThreshold) {
         this.logout();
       }
     });
