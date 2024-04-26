@@ -96,7 +96,11 @@ export class AppComponent implements OnInit {
   openInactiveModal() {
     this.removeListenersOnUserInteractions();
 
-    this.dialog.open(InactiveDialogComponent);
+    this.dialog.open(InactiveDialogComponent, {
+      data: {
+        timeToSignOut: this.timeLastUserInteraction + this.signOutThreshold,
+      },
+    });
 
     this.dialog.afterAllClosed.pipe(take(1)).subscribe(() => {
       this.timeLastUserInteraction = new Date().getTime();

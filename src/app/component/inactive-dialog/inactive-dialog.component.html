@@ -1,6 +1,6 @@
 <h2 mat-dialog-title>You will be signed out due to inactivity</h2>
 <mat-dialog-content>
-    <b>Time remaining:</b> #:##
+    <b>Time remaining:</b> {{ formatTime(remainingTime) }}
 </mat-dialog-content>
 <mat-dialog-actions>
     <button mat-flat-button color="primary" mat-dialog-close>Keep me signed in</button>
