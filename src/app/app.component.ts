@@ -8,7 +8,15 @@ import {
   RefreshToken,
 } from '@okta/okta-auth-js';
 import { InactiveDialogComponent } from './component/inactive-dialog/inactive-dialog.component';
-import { debounceTime, fromEvent, interval, merge } from 'rxjs';
+import {
+  Subject,
+  debounceTime,
+  fromEvent,
+  interval,
+  merge,
+  take,
+  takeUntil,
+} from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -22,12 +30,19 @@ export class AppComponent implements OnInit {
   refreshToken?: RefreshToken;
   error?: Error;
 
-  validUserEvents = [{ scope: document, action: 'click' }];
-  timeLastUserInteraction = new Date().getTime();
-
   timeBetweenChecks = 5000;
   timeToInactive = 900000;
   timeToSignOut = 1800000;
+
+  validUserEvents = [{ scope: document, action: 'click' }];
+  stopListeningToUserInteractions$: Subject<null> = new Subject();
+  userInteractions$ = merge(
+    ...this.validUserEvents.map((ev) => fromEvent(ev.scope, ev.action))
+  ).pipe(
+    debounceTime(this.timeBetweenChecks / 2),
+    takeUntil(this.stopListeningToUserInteractions$)
+  );
+  timeLastUserInteraction = new Date().getTime();
 
   constructor(
     @Inject(OKTA_AUTH) private oktaAuth: OktaAuth,
@@ -44,7 +59,7 @@ export class AppComponent implements OnInit {
       this.error = authState.error;
     });
 
-    interval(1000).subscribe(() => {
+    interval(this.timeBetweenChecks).subscribe(() => {
       const currentTime = new Date().getTime();
       if (
         this.dialog.openDialogs.length === 0 &&
@@ -57,15 +72,21 @@ export class AppComponent implements OnInit {
       }
     });
 
-    merge(...this.validUserEvents.map((ev) => fromEvent(ev.scope, ev.action)))
-      .pipe(debounceTime(500))
-      .subscribe(() => {
-        this.timeLastUserInteraction = new Date().getTime();
-      });
+    this.addListenersOnUserInteractions();
   }
 
   convertUnixToDate(unix: number): Date {
     return new Date(unix);
+  }
+
+  addListenersOnUserInteractions(): void {
+    this.userInteractions$.subscribe(() => {
+      this.timeLastUserInteraction = new Date().getTime();
+    });
+  }
+
+  removeListenersOnUserInteractions(): void {
+    this.stopListeningToUserInteractions$.next(null);
   }
 
   logout() {
@@ -73,6 +94,13 @@ export class AppComponent implements OnInit {
   }
 
   openInactiveModal() {
+    this.removeListenersOnUserInteractions();
+
     this.dialog.open(InactiveDialogComponent);
+
+    this.dialog.afterAllClosed.pipe(take(1)).subscribe(() => {
+      this.timeLastUserInteraction = new Date().getTime();
+      this.addListenersOnUserInteractions();
+    });
   }
 }
