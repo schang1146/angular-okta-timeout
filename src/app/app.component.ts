@@ -10,12 +10,12 @@ import {
 import { InactiveDialogComponent } from './component/inactive-dialog/inactive-dialog.component';
 import {
   Subject,
-  debounceTime,
   fromEvent,
   interval,
   merge,
   take,
   takeUntil,
+  throttleTime,
 } from 'rxjs';
 
 @Component({
@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
   userInteractions$ = merge(
     ...this.validUserEvents.map((ev) => fromEvent(ev.scope, ev.action))
   ).pipe(
-    debounceTime(this.timeBetweenChecks / 2),
+    throttleTime(this.timeBetweenChecks / 2),
     takeUntil(this.stopListeningToUserInteractions$)
   );
   timeLastUserInteraction = new Date().getTime();
