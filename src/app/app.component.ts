@@ -30,9 +30,9 @@ export class AppComponent implements OnInit {
   refreshToken?: RefreshToken;
   error?: Error;
 
-  timeBetweenChecks = 5000; // ms
-  inactiveThreshold = 900000; // ms
-  signOutThreshold = 1800000; // ms
+  timeBetweenChecks = 2000; // ms
+  inactiveThreshold = 300000; // ms
+  signOutThreshold = 600000; // ms
 
   validUserEvents = [{ scope: document, action: 'click' }];
   stopListeningToUserInteractions$: Subject<null> = new Subject();
