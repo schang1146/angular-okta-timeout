@@ -5,4 +5,14 @@ import { Component } from '@angular/core';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent {}
+export class HomeComponent {
+  counter = 0;
+
+  decrement() {
+    this.counter--;
+  }
+
+  increment() {
+    this.counter++;
+  }
+}
