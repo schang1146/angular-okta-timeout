@@ -1,1 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: Fira Code;
+    src: url(./assets/fonts/fira-code/FiraCode-VariableFont_wght.ttf) format('TrueType');
+    font-display: swap; // https://developer.mozilla.org/en-US/docs/Web/CSS/@font-feature-values/font-display
+}
+
+body {
+    font-family: Fira Code, system-ui, sans-serif;
+}
